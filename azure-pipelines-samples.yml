@@ -74,10 +74,17 @@ steps:
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
       pipeline: '39810'
       buildVersionToDownload: 'latest'
-      downloadType: 'single'
-      downloadPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
+      downloadPath: '$(System.ArtifactsDirectory)'
     condition: succeededOrFailed()
-    
+
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      buildType: 'specific'
+      project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
+      definition: '39810'
+      buildVersionToDownload: 'latest'
+      targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
+    condition: succeededOrFailed()
   - task: VSBuild@1
     displayName: 'Build UI test solution Testing/**/SamplesTest.sln'
     inputs:
