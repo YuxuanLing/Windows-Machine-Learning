@@ -68,11 +68,6 @@ steps:
     displayName: 'NuGet restore'
     condition: succeededOrFailed()
 
-  - task: DownloadBuildArtifacts@0
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      downloadPath: '$(System.ArtifactsDirectory)'
 
   - task: DownloadBuildArtifacts@0
     inputs:
@@ -84,6 +79,7 @@ steps:
       downloadType: 'single'
       artifactName: 'x64-win-redist-Release'
       downloadPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
+    condition: succeededOrFailed()
 
   - task: VSBuild@1
     displayName: 'Build UI test solution Testing/**/SamplesTest.sln'
