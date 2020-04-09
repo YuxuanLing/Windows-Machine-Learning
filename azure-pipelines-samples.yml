@@ -90,8 +90,6 @@ steps:
       createLogFile: true
     condition: succeededOrFailed()
 
-  
-
   - task: VSBuild@1
     displayName: 'Build BatchSupport Sample'
     inputs:
@@ -116,6 +114,13 @@ steps:
         onnxruntime.pdb
         windows.ai.machinelearning.pdb
       TargetFolder: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\BatchSupport\'
+    condition: succeededOrFailed()
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: '.\BatchSupport.exe'
+      workingDirectory: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\BatchSupport\'
     condition: succeededOrFailed()
 
   - task: VSBuild@1
