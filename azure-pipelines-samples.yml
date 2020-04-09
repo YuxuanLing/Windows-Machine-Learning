@@ -68,15 +68,6 @@ steps:
     displayName: 'NuGet restore'
     condition: succeededOrFailed()
 
-  - task: DownloadBuildArtifacts@0
-    inputs:
-      buildType: 'specific'
-      project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
-      pipeline: '39810'
-      buildVersionToDownload: 'latest'
-      downloadPath: '$(System.ArtifactsDirectory)'
-    condition: succeededOrFailed()
-
   - task: DownloadPipelineArtifact@2
     inputs:
       buildType: 'specific'
@@ -85,6 +76,7 @@ steps:
       buildVersionToDownload: 'latest'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
+
   - task: VSBuild@1
     displayName: 'Build UI test solution Testing/**/SamplesTest.sln'
     inputs:
@@ -97,6 +89,34 @@ steps:
       msbuildArchitecture: x64
       createLogFile: true
     condition: succeededOrFailed()
+
+  
+
+  - task: VSBuild@1
+    displayName: 'Build BatchSupport Sample'
+    inputs:
+      solution: Samples/BatchSupport/BatchSupport.sln
+      vsVersion: 15.0
+      msbuildArgs: '-v:diag /p:OutDir=$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\BatchSupport\'
+      platform: '$(BuildPlatform)'
+      configuration: '$(BuildConfiguration)'
+      clean: true
+      msbuildArchitecture: x64
+      createLogFile: true
+    condition: succeededOrFailed()
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)\buildArtifacts\$(BuildPlatform)-win-inbox-$(BuildConfiguration)\bin'
+      Contents: |
+        windows.ai.machinelearning.dll
+        onnxruntime.dll
+        DirectML.dll
+        DirectML.pdb
+        onnxruntime.pdb
+        windows.ai.machinelearning.pdb
+      TargetFolder: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\BatchSupport\'
+   condition: succeededOrFailed()
 
   - task: VSBuild@1
     displayName: 'Build AdapterSelection Sample'
@@ -203,18 +223,7 @@ steps:
       createLogFile: true
     condition: succeededOrFailed()
 
-  - task: VSBuild@1
-    displayName: 'Build BatchSupport Sample'
-    inputs:
-      solution: Samples/BatchSupport/BatchSupport.sln
-      vsVersion: 15.0
-      msbuildArgs: '-v:diag /p:OutDir=$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\BatchSupport\'
-      platform: '$(BuildPlatform)'
-      configuration: '$(BuildConfiguration)'
-      clean: true
-      msbuildArchitecture: x64
-      createLogFile: true
-    condition: succeededOrFailed()
+  
 
   - task: VSBuild@1
     displayName: 'Build Emoji Sample'
