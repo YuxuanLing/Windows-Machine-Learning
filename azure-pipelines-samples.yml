@@ -74,7 +74,6 @@ steps:
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
       definition: '39810'
       buildVersionToDownload: 'latest'
-      tags: 'master'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
 
