@@ -116,7 +116,7 @@ steps:
         onnxruntime.pdb
         windows.ai.machinelearning.pdb
       TargetFolder: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\BatchSupport\'
-   condition: succeededOrFailed()
+    condition: succeededOrFailed()
 
   - task: VSBuild@1
     displayName: 'Build AdapterSelection Sample'
