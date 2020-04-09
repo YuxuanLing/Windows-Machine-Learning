@@ -68,29 +68,16 @@ steps:
     displayName: 'NuGet restore'
     condition: succeededOrFailed()
 
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      buildType: 'specific'
-      project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
-      definition: '39810'
-      buildVersionToDownload: 'specific'
-      pipelineId: '22708463'
-      artifactName: 'x64-win-redist-Release'
-      targetPath: '$(System.DefaultWorkingDirectory)'
-    condition: succeededOrFailed()
-
   - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'specific'
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
       pipeline: '39810'
-      buildVersionToDownload: 'specific'
-      buildId: '22708463'
+      buildVersionToDownload: 'latest'
       downloadType: 'single'
-      artifactName: 'x64-win-redist-Release'
       downloadPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
-
+    
   - task: VSBuild@1
     displayName: 'Build UI test solution Testing/**/SamplesTest.sln'
     inputs:
