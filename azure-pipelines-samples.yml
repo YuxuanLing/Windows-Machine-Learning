@@ -122,7 +122,11 @@ steps:
     displayName: 'Test BatchSupport Sample'
     inputs:
       targetType: 'inline'
-      script: '.\BatchSupport.exe'
+      script: |
+        .\BatchSupport.exe freeBatchSize TensorFloat
+        .\BatchSupport.exe fixedBatchSize TensorFloat
+        .\BatchSupport.exe fixedBatchSize VideoFrame
+        .\BatchSupport.exe freeBatchSize VideoFrame
       workingDirectory: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\BatchSupport\'
     condition: succeededOrFailed()
 
@@ -152,7 +156,29 @@ steps:
       createLogFile: true
     condition: succeededOrFailed()
 
-
+  - task: CopyFiles@2
+    displayName: 'copy dlls to CustomOperator Sample'
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)\buildArtifacts\$(BuildPlatform)-win-inbox-$(BuildConfiguration)\bin'
+      Contents: |
+        windows.ai.machinelearning.dll
+        onnxruntime.dll
+        DirectML.dll
+        DirectML.pdb
+        onnxruntime.pdb
+        windows.ai.machinelearning.pdb
+      TargetFolder: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\CustomOperator\'
+    condition: succeededOrFailed()
+  - task: PowerShell@2
+    displayName: 'Test CustomOperator Sample'
+    inputs:
+      targetType: 'inline'
+      script: |
+        .\custom-operator-sample.exe relu
+        .\custom-operator-sample.exe debug
+        .\custom-operator-sample.exe relu_gpu
+        .\custom-operator-sample.exe noisyrelu
+    condition: succeededOrFailed()
   - task: VSBuild@1
     displayName: 'Build MNIST-Tutorial-cs Sample'
     inputs:
@@ -231,7 +257,25 @@ steps:
       createLogFile: true
     condition: succeededOrFailed()
 
-  
+  - task: CopyFiles@2
+    displayName: 'copy dlls to CustomTensorization Sample'
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)\buildArtifacts\$(BuildPlatform)-win-inbox-$(BuildConfiguration)\bin'
+      Contents: |
+        windows.ai.machinelearning.dll
+        onnxruntime.dll
+        DirectML.dll
+        DirectML.pdb
+        onnxruntime.pdb
+        windows.ai.machinelearning.pdb
+      TargetFolder: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\CustomTensorization\'
+    condition: succeededOrFailed()
+  - task: PowerShell@2
+    displayName: 'Test CustomTensorization Sample'
+    inputs:
+      targetType: 'inline'
+      script: '.\CustomTensorization.exe'
+    condition: succeededOrFailed()
 
   - task: VSBuild@1
     displayName: 'Build Emoji Sample'
@@ -257,6 +301,26 @@ steps:
       clean: true
       msbuildArchitecture: x64
       createLogFile: true
+    condition: succeededOrFailed()
+
+  - task: CopyFiles@2
+    displayName: 'copy dlls to StreamFromResource Sample'
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)\buildArtifacts\$(BuildPlatform)-win-inbox-$(BuildConfiguration)\bin'
+      Contents: |
+        windows.ai.machinelearning.dll
+        onnxruntime.dll
+        DirectML.dll
+        DirectML.pdb
+        onnxruntime.pdb
+        windows.ai.machinelearning.pdb
+      TargetFolder: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\StreamFromResource\'
+    condition: succeededOrFailed()
+  - task: PowerShell@2
+    displayName: 'Test StreamFromResource Sample'
+    inputs:
+      targetType: 'inline'
+      script: '.\StreamFromResource.exe'
     condition: succeededOrFailed()
 
   - task: CopyFiles@2
