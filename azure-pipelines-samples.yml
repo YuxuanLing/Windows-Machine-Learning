@@ -74,6 +74,7 @@ steps:
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
       definition: '39810'
       buildVersionToDownload: 'latest'
+      tags: 'master'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
 
@@ -104,6 +105,7 @@ steps:
     condition: succeededOrFailed()
 
   - task: CopyFiles@2
+    displayName: 'copy dlls to BatchSupport Sample'
     inputs:
       SourceFolder: '$(System.DefaultWorkingDirectory)\buildArtifacts\$(BuildPlatform)-win-inbox-$(BuildConfiguration)\bin'
       Contents: |
@@ -117,6 +119,7 @@ steps:
     condition: succeededOrFailed()
 
   - task: PowerShell@2
+    displayName: 'Test BatchSupport Sample'
     inputs:
       targetType: 'inline'
       script: '.\BatchSupport.exe'
