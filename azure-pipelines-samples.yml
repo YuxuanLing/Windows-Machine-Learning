@@ -177,7 +177,9 @@ steps:
         .\custom-operator-sample.exe debug
         .\custom-operator-sample.exe relu_gpu
         .\custom-operator-sample.exe noisyrelu
+      workingDirectory: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\CustomOperator\'
     condition: succeededOrFailed()
+
   - task: VSBuild@1
     displayName: 'Build MNIST-Tutorial-cs Sample'
     inputs:
@@ -274,6 +276,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: '.\CustomTensorization.exe'
+      workingDirectory: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\CustomTensorization\'
     condition: succeededOrFailed()
 
   - task: VSBuild@1
@@ -320,6 +323,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: '.\StreamFromResource.exe'
+      workingDirectory: '$(System.DefaultWorkingDirectory)\bin\$(BuildPlatform)\$(BuildConfiguration)\StreamFromResource\'
     condition: succeededOrFailed()
 
   - task: CopyFiles@2
