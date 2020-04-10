@@ -72,10 +72,6 @@ steps:
       versionSpec: 4.9.2
     condition: succeededOrFailed()
 
-  - task: 333b11bd-d341-40d9-afcf-b32d5ce6f23b@2
-    displayName: 'NuGet restore'
-    condition: succeededOrFailed()
-
   
   - task: DownloadPipelineArtifact@2
     displayName: 'download Redist Artifact'
@@ -84,8 +80,8 @@ steps:
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
       definition: '39810'
       buildVersionToDownload: 'latest'
+      branchName: 'master'
       artifactName: '$(ArtifactNameRedist)'
-      branchName: 'refs/heads/master'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
   
@@ -96,8 +92,8 @@ steps:
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
       definition: '39810'
       buildVersionToDownload: 'latest'
+      branchName: 'master'
       artifactName: '$(ArtifactNameInbox)'
-      branchName: 'refs/heads/master'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
 
