@@ -28,11 +28,11 @@ strategy:
     Debug_x86:
       BuildPlatform: x86
       BuildConfiguration: Debug
-      ArtifactNameRedist: x96-win-redist-debug
+      ArtifactNameRedist: x86-win-redist-debug
       ArtifactNameInbox: x86-win-inbox-debug
 
 pool:
-  name: Package ES Lab E
+  name: DirectML-Build
 #  demands: agent.osversion -equals 10.0.17763
 
 # CI trigger
@@ -76,28 +76,26 @@ steps:
     displayName: 'NuGet restore'
     condition: succeededOrFailed()
 
-  - task: DownloadBuildArtifacts@0
+  - task: DownloadPipelineArtifact@2
     displayName: 'download Redist Artifact'
     inputs:
       buildType: 'specific'
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
-      pipeline: '39810'
+      definition: '39810'
       buildVersionToDownload: 'latest'
-      downloadType: 'single'
       artifactName: '$(ArtifactNameRedist)'
-      downloadPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
+      targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
   
-  - task: DownloadBuildArtifacts@0
+  - task: DownloadPipelineArtifact@2
     displayName: 'download Inbox Artifact'
     inputs:
       buildType: 'specific'
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
-      pipeline: '39810'
+      definition: '39810'
       buildVersionToDownload: 'latest'
-      downloadType: 'single'
       artifactName: '$(ArtifactNameInbox)'
-      downloadPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
+      targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
 
   - task: VSBuild@1
