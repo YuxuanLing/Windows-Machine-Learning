@@ -72,25 +72,14 @@ steps:
       versionSpec: 4.9.2
     condition: succeededOrFailed()
 
-  - task: DownloadBuildArtifacts@0
-    inputs:
-      buildType: 'specific'
-      project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
-      pipeline: '39810'
-      buildVersionToDownload: 'latestFromBranch'
-      branchName: 'refs/heads/master'
-      downloadType: 'specific'
-      downloadPath: '$(System.ArtifactsDirectory)'
-    condition: succeededOrFailed()
-
   - task: DownloadPipelineArtifact@2
     displayName: 'download Redist Artifact'
     inputs:
       buildType: 'specific'
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
       definition: '39810'
-      buildVersionToDownload: 'latest'
-      branchName: 'master'
+      buildVersionToDownload: 'latestFromBranch'
+      branchName: 'refs/heads/master'
       artifactName: '$(ArtifactNameRedist)'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
@@ -101,8 +90,8 @@ steps:
       buildType: 'specific'
       project: '274e76ac-6b29-4f77-a85d-7914c77cabd5'
       definition: '39810'
-      buildVersionToDownload: 'latest'
-      branchName: 'master'
+      buildVersionToDownload: 'latestFromBranch'
+      branchName: 'refs/heads/master'
       artifactName: '$(ArtifactNameInbox)'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
