@@ -84,6 +84,7 @@ steps:
       definition: '39810'
       buildVersionToDownload: 'latest'
       artifactName: '$(ArtifactNameRedist)'
+      branchName: 'refs/heads/master'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
   
@@ -95,6 +96,7 @@ steps:
       definition: '39810'
       buildVersionToDownload: 'latest'
       artifactName: '$(ArtifactNameInbox)'
+      branchName: 'refs/heads/master'
       targetPath: '$(System.DefaultWorkingDirectory)\buildArtifacts'
     condition: succeededOrFailed()
 
