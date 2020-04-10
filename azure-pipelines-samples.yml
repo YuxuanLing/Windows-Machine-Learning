@@ -13,23 +13,23 @@ strategy:
     Release_x64:
       BuildPlatform: x64
       BuildConfiguration: Release
-      ArtifactNameRedist: x64-win-redist-release
-      ArtifactNameInbox: x64-win-inbox-release
+      ArtifactNameRedist: x64-win-redist-Release
+      ArtifactNameInbox: x64-win-inbox-Release
     Debug_x64:
       BuildPlatform: x64
       BuildConfiguration: Debug
-      ArtifactNameRedist: x64-win-redist-debug
-      ArtifactNameInbox: x64-win-inbox-debug
+      ArtifactNameRedist: x64-win-redist-Debug
+      ArtifactNameInbox: x64-win-inbox-Debug
     Release_x86:
       BuildPlatform: x86
       BuildConfiguration: Release
-      ArtifactNameRedist: x86-win-redist-release
-      ArtifactNameInbox: x86-win-inbox-release
+      ArtifactNameRedist: x86-win-redist-Release
+      ArtifactNameInbox: x86-win-inbox-Release
     Debug_x86:
       BuildPlatform: x86
       BuildConfiguration: Debug
-      ArtifactNameRedist: x86-win-redist-debug
-      ArtifactNameInbox: x86-win-inbox-debug
+      ArtifactNameRedist: x86-win-redist-Debug
+      ArtifactNameInbox: x86-win-inbox-Debug
 
 pool:
   name: DirectML-Build
@@ -76,6 +76,7 @@ steps:
     displayName: 'NuGet restore'
     condition: succeededOrFailed()
 
+  
   - task: DownloadPipelineArtifact@2
     displayName: 'download Redist Artifact'
     inputs:
